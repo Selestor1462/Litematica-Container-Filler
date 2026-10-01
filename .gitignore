@@ -20,3 +20,6 @@ bin/
 # Minecraft dev caches
 **/loom-cache/
 **/remappedJars/
+.vscode/tasks.json
+*.jar
+/gradle

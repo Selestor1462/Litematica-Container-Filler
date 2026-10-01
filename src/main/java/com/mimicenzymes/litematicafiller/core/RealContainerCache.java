@@ -584,15 +584,6 @@ public class RealContainerCache {
                     return combined;
                 }
 
-                Map<Integer, ItemStack> rightServux = ServuxSyncHandler.getCachedData(halves[0]);
-                Map<Integer, ItemStack> leftServux = ServuxSyncHandler.getCachedData(halves[1]);
-                combined = combineHalves(rightServux, leftServux);
-                if (combined != null) {
-                    if (isEntityInvalidated(halves[0]) || isEntityInvalidated(halves[1])) return null;
-                    rememberSyncedData(halves, combined);
-                    return combined;
-                }
-
                 combined = combineHalves(NBT_QUERY_CACHE.get(halves[0]), NBT_QUERY_CACHE.get(halves[1]));
                 if (combined != null) return combined;
 
@@ -611,13 +602,6 @@ public class RealContainerCache {
             if (isEntityInvalidated(pos)) return null;
             rememberSyncedData(pos, litematicaData);
             return litematicaData;
-        }
-
-        Map<Integer, ItemStack> servuxData = ServuxSyncHandler.getCachedData(pos);
-        if (servuxData != null) {
-            if (isEntityInvalidated(pos)) return null;
-            rememberSyncedData(pos, servuxData);
-            return servuxData;
         }
 
         Map<Integer, ItemStack> snapshot = getSyncSnapshot(pos);
@@ -661,13 +645,6 @@ public class RealContainerCache {
 
         if (Configs.ENABLE_DATA_SYNC.getBooleanValue()) {
             requested |= requestLitematicaData(pos, halves, isDouble);
-            if (isDouble) {
-                boolean s1 = ServuxSyncHandler.requestData(halves[0]);
-                boolean s2 = ServuxSyncHandler.requestData(halves[1]);
-                requested |= s1 || s2;
-            } else {
-                requested |= ServuxSyncHandler.requestData(pos);
-            }
         }
 
         if (requested) {
