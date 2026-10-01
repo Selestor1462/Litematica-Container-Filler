@@ -7,6 +7,10 @@ on:
         description: 'Create a GitHub release'
         type: boolean
         default: false
+      publishModrinth:
+        description: 'Also publish builds to Modrinth'
+        type: boolean
+        default: false
       releaseTag:
         description: 'Release tag, required when creating a release'
         type: string
@@ -227,6 +231,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       github.event.inputs.isRelease == 'true' &&
+      github.event.inputs.publishModrinth == 'true' &&
       github.event.inputs.releaseTag != '' &&
       needs.matrix_prepare.outputs.matrix != '{"include":[]}'
     strategy:
